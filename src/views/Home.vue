@@ -12,12 +12,19 @@
     <button v-on:click="createRecipe()">Create</button>
 
     <h1>All Recipes</h1>
+    {{ currentRecipe }}
 
     <div v-for="recipe in recipes">
       <h2>Title: {{ recipe.title }}</h2>
-      <p>Ingredients: {{ recipe.ingredients }}</p>
-      <p>Directions: {{ recipe.directions }}</p>
       <img v-bind:src="recipe.image_url" v-bind:alt="recipe.title">
+      <div>
+        <button v-on:click="showRecipe(recipe)">More Info</button>
+      </div>
+      <div v-if="recipe === currentRecipe">
+        <p>Ingredients: {{ recipe.ingredients }}</p>
+        <p>Directions: {{ recipe.directions }}</p>
+        <p>Prep Time: {{ recipe.prep_time }}</p>
+      </div>
     </div>
 
 
@@ -43,6 +50,7 @@ export default {
       newRecipeDirections: "",
       newRecipeImageUrl: "",
       newRecipePrepTime: "",
+      currentRecipe: {}
     };
   },
   created: function() {
@@ -65,10 +73,22 @@ export default {
       .then(response => {
         console.log("Success", response.data);
         this.recipes.push(response.data);
+        this.newRecipeTitle = "";
+        this.newRecipeIngredients = "";
+        this.newRecipeDirections = "";
+        this.newRecipeImageUrl = "";
+        this.newRecipePrepTime = "";
       })
       .catch(error => {
         console.log(error.response.data.errors);
       });
+    },
+    showRecipe: function(recipe) {
+      if (this.currentRecipe === recipe) {
+        this.currentRecipe = {};
+      } else {
+        this.currentRecipe = recipe;
+      }
     }
   }
 };
