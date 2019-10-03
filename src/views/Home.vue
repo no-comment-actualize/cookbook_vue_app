@@ -32,7 +32,7 @@
           Imag Url: <input type="text" v-model="recipe.image_url"><br>
           Prep Time: <input type="number" v-model="recipe.prep_time"><br>
           <button v-on:click="updateRecipe(recipe)">Update</button><br>
-          {{recipe}}
+          <button v-on:click="destroyRecipe(recipe)">Destroy</button>
         </div>
       </div>
 
@@ -115,6 +115,15 @@ export default {
         })
         .catch(error => {
           console.log(error.response.data.errors);
+        })
+    },
+    destroyRecipe: function(recipe) {
+      axios.delete("/api/recipes/" + recipe.id)
+        .then(response => {
+          console.log("Success", response.data);
+          // find index of recipe object to splice
+          var index = this.recipes.indexOf(recipe);
+          this.recipes.splice(index, 1);
         })
     }
   }
