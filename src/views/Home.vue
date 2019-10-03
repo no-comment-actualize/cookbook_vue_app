@@ -8,6 +8,7 @@
       <h2>Title: {{ recipe.title }}</h2>
       <p>Ingredients: {{ recipe.ingredients }}</p>
       <p>Directions: {{ recipe.directions }}</p>
+      <img v-bind:src="recipe.image_url" v-bind:alt="recipe.title">
     </div>
 
 
@@ -16,6 +17,9 @@
 </template>
 
 <style>
+  img {
+    width: 250px;
+  };
 </style>
 
 <script>
