@@ -1,8 +1,10 @@
 <template>
   <div class="home">
 
+    <h1>New Recipe</h1>
+    <button v-on:click="createRecipe()">Create</button>
 
-    <h1>{{ message }}</h1>
+    <h1>All Recipes</h1>
 
     <div v-for="recipe in recipes">
       <h2>Title: {{ recipe.title }}</h2>
@@ -28,7 +30,6 @@ import axios from "axios";
 export default {
   data: function() {
     return {
-      message: "Welcome to Vue.js!",
       recipes: []
     };
   },
@@ -38,6 +39,25 @@ export default {
       console.log(this.recipes);
     });
   },
-  methods: {}
+  methods: {
+    createRecipe: function() {
+      var params = {
+        title: "Example Title",
+        directions: "Example Directions",
+        prep_time: "Example Prep Time", 
+        ingredients: "Example Ingredients",
+        image_url: "Example Image Url"
+      };
+
+      axios.post("/api/recipes", params)
+      .then(response => {
+        console.log("Success", response.data);
+        this.recipes.push(response.data);
+      })
+      .catch(error => {
+        console.log(error.response.data.errors);
+      });
+    }
+  }
 };
 </script>
