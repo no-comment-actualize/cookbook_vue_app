@@ -123,6 +123,7 @@ export default {
           console.log("Success", response.data);
           // find index of recipe object to splice
           var index = this.recipes.indexOf(recipe);
+          // splice takes in the index where to start splicing, and how many elements to splice out of the array
           this.recipes.splice(index, 1);
         })
     }
