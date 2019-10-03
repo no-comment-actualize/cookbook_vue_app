@@ -12,9 +12,9 @@
     <button v-on:click="createRecipe()">Create</button>
 
     <h1>All Recipes</h1>
-    {{ currentRecipe }}
 
     <div v-for="recipe in recipes">
+
       <h2>Title: {{ recipe.title }}</h2>
       <img v-bind:src="recipe.image_url" v-bind:alt="recipe.title">
       <div>
@@ -24,7 +24,18 @@
         <p>Ingredients: {{ recipe.ingredients }}</p>
         <p>Directions: {{ recipe.directions }}</p>
         <p>Prep Time: {{ recipe.prep_time }}</p>
+        <h4>Edit Recipe</h4>
+        <div>
+          Title: <input type="text" v-model="recipe.title"><br>
+          Ingredients: <input type="text" v-model="recipe.ingredients"><br>
+          Directions: <input type="text" v-model="recipe.directions"><br>
+          Imag Url: <input type="text" v-model="recipe.image_url"><br>
+          Prep Time: <input type="number" v-model="recipe.prep_time"><br>
+          <button v-on:click="updateRecipe(recipe)">Update</button><br>
+          {{recipe}}
+        </div>
       </div>
+
     </div>
 
 
@@ -89,6 +100,22 @@ export default {
       } else {
         this.currentRecipe = recipe;
       }
+    },
+    updateRecipe: function(recipe) {
+      var params = {
+        title: recipe.title,
+        directions: recipe.directions,
+        prep_time: recipe.prep_time, 
+        ingredients: recipe.ingredients,
+        image_url: recipe.image_url
+      };
+      axios.patch("/api/recipes/" + recipe.id, params)
+        .then(response => {
+          console.log("Success", response.data);
+        })
+        .catch(error => {
+          console.log(error.response.data.errors);
+        })
     }
   }
 };
