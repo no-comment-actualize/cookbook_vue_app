@@ -1,8 +1,11 @@
 <template>
-  <div class="home">
+  <div class="recipes-index">
 
     <h1>New Recipe</h1>
     <div>
+      <ul>
+        <li v-for="error in errors">{{ error }}</li>
+      </ul>
       Title: <input type="text" v-model="newRecipeTitle"><br>
       Ingredients: <input type="text" v-model="newRecipeIngredients"><br>
       Directions: <input type="text" v-model="newRecipeDirections"><br>
@@ -61,7 +64,8 @@ export default {
       newRecipeDirections: "",
       newRecipeImageUrl: "",
       newRecipePrepTime: "",
-      currentRecipe: {}
+      currentRecipe: {},
+      errors: []
     };
   },
   created: function() {
@@ -81,18 +85,19 @@ export default {
       };
 
       axios.post("/api/recipes", params)
-      .then(response => {
-        console.log("Success", response.data);
-        this.recipes.push(response.data);
-        this.newRecipeTitle = "";
-        this.newRecipeIngredients = "";
-        this.newRecipeDirections = "";
-        this.newRecipeImageUrl = "";
-        this.newRecipePrepTime = "";
-      })
-      .catch(error => {
-        console.log(error.response.data.errors);
-      });
+        .then(response => {
+          console.log("Success", response.data);
+          this.recipes.push(response.data);
+          this.newRecipeTitle = "";
+          this.newRecipeIngredients = "";
+          this.newRecipeDirections = "";
+          this.newRecipeImageUrl = "";
+          this.newRecipePrepTime = "";
+        })
+        .catch(error => {
+          this.errors = error.response.data.errors;
+          // console.log(error.response.data.errors);
+        });
     },
     showRecipe: function(recipe) {
       if (this.currentRecipe === recipe) {
@@ -123,6 +128,7 @@ export default {
           console.log("Success", response.data);
           // find index of recipe object to splice
           var index = this.recipes.indexOf(recipe);
+          console.log(index);
           // splice takes in the index where to start splicing, and how many elements to splice out of the array
           this.recipes.splice(index, 1);
         })
