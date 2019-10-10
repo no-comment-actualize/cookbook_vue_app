@@ -4,6 +4,7 @@ import RecipesIndex from './views/recipes/Index.vue'
 import Signup from './views/Signup.vue'
 import Login from "./views/Login.vue";
 import Logout from "./views/Logout.vue";
+import RecipesNew from './views/recipes/New.vue'
 
 Vue.use(Router)
 
@@ -12,7 +13,7 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',
+      path: '/recipes',
       name: 'recipes-index',
       component: RecipesIndex
     },
@@ -38,6 +39,11 @@ export default new Router({
       path: '/logout',
       name: 'logout',
       component: Logout
+    },
+    {
+      path: '/recipes/new',
+      name: 'recipes-new',
+      component: RecipesNew
     }
   ]
 })
