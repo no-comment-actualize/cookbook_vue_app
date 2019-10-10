@@ -7,9 +7,11 @@
     <p>Directions: {{ recipe.directions }}</p>
     <p>Prep Time: {{ recipe.prep_time }}</p>
 
-    <router-link v-bind:to="`/recipes/${recipe.id}/edit`">Edit</router-link>
+    <router-link v-bind:to="`/recipes/${recipe.id}/edit`">
+      <button class="btn btn-warning">Edit</button>
+    </router-link>
     <div>
-      <button v-on:click="destroyRecipe()">Destroy</button>  
+      <button class="btn btn-danger" v-on:click="destroyRecipe()">Destroy</button>  
     </div>
     
 
