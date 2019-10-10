@@ -8,6 +8,10 @@
     <p>Prep Time: {{ recipe.prep_time }}</p>
 
     <router-link v-bind:to="`/recipes/${recipe.id}/edit`">Edit</router-link>
+    <div>
+      <button v-on:click="destroyRecipe()">Destroy</button>  
+    </div>
+    
 
   </div>
 </template>
@@ -29,6 +33,13 @@ export default {
     });
   },
   methods: {
+    destroyRecipe: function() {
+      axios.delete("/api/recipes/" + this.recipe.id)
+        .then(response => {
+          console.log("Success", response.data);
+          this.$router.push("/recipes");
+        })
+    }
   }
 };
 </script>
