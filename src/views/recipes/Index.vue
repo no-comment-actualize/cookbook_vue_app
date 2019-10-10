@@ -6,7 +6,11 @@
     <div v-for="recipe in recipes">
 
       <h2>Title: {{ recipe.title }}</h2>
-      <img v-bind:src="recipe.image_url" v-bind:alt="recipe.title">
+
+      <router-link v-bind:to="`/recipes/${recipe.id}`">
+        <img v-bind:src="recipe.image_url" v-bind:alt="recipe.title">
+      </router-link>
+
       <div>
         <button v-on:click="showRecipe(recipe)">More Info</button>
       </div>
