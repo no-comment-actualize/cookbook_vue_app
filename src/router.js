@@ -6,6 +6,7 @@ import Login from "./views/Login.vue";
 import Logout from "./views/Logout.vue";
 import RecipesNew from './views/recipes/New.vue'
 import RecipesShow from './views/recipes/Show.vue'
+import RecipesEdit from './views/recipes/Edit.vue'
 
 Vue.use(Router)
 
@@ -50,6 +51,11 @@ export default new Router({
       path: '/recipes/:id',
       name: 'recipes-show',
       component: RecipesShow
+    },
+    {
+      path: '/recipes/:id/edit',
+      name: 'recipes-edit',
+      component: RecipesEdit
     }
   ]
 })
