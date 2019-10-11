@@ -1,21 +1,26 @@
 <template>
   <div class="recipes-index">
 
-    <h1>All Recipes</h1>
-
-
-    <div class="card-columns">
-      <div class="card" v-for="recipe in recipes">
-        <router-link v-bind:to="`/recipes/${recipe.id}`">
-          <img v-bind:src="recipe.image_url" class="card-img-top" v-bind:alt="recipe.title">
-        </router-link>
-        <div class="card-body">
-          <h5 class="card-title">{{ recipe.title }}</h5>
-          <p class="card-text">
-            <router-link v-bind:to="`/recipes/${recipe.id}`">
-              <button class="btn btn-primary">More Info</button>
+    <div id="fh5co-work-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3 text-center fh5co-heading">
+            <h2>All Recipes</h2>
+            <p>This is cheddar's cookbook</p>
+          </div>
+        </div>
+        <div class="row">
+          <div v-for="recipe in recipes" class="col-md-4">
+            <router-link v-bind:to="`/recipes/${recipe.id}`" class="item-grid text-center">
+              <div class="image" v-bind:style="`background-image: url(${recipe.image_url})`"></div>
+              <div class="v-align">
+                <div class="v-align-middle">
+                  <h3 class="title">{{ recipe.title }}</h3>
+                  <h5 class="category"><button class="btn btn-primary">More Info</button></h5>
+                </div>
+              </div>
             </router-link>
-          </p>
+          </div>
         </div>
       </div>
     </div>
@@ -23,12 +28,6 @@
 
   </div>
 </template>
-
-<style>
-  img {
-    width: 250px;
-  };
-</style>
 
 <script>
 import axios from "axios";
