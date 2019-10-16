@@ -30,22 +30,24 @@
         <datalist id="titles">
           <option v-for="recipe in recipes">{{ recipe.title }}</option>
         </datalist>
-        
 
         <div class="row">
 
 
-          <div v-for="recipe in orderBy(filterBy(recipes, titleFilter, 'title'), sortAttribute, sortAscending)" class="col-md-4">
-            <router-link v-bind:to="`/recipes/${recipe.id}`" class="item-grid text-center">
+          <div v-for="recipe in orderBy(filterBy(recipes, titleFilter, 'title'), sortAttribute, sortAscending)" class="col-md-4" v-on:click="currentRecipe = recipe" v-bind:class="{ selected: recipe === currentRecipe}">
+            <a class="item-grid text-center">
               <div class="image" v-bind:style="`background-image: url(${recipe.image_url})`"></div>
               <div class="v-align">
                 <div class="v-align-middle">
                   <h3 class="title">{{ recipe.title }}</h3>
                   <h5 class="category">Prep time: {{ recipe.prep_time }}</h5>
-                  <h5 class="category"><button class="btn btn-primary">More Info</button></h5>
+                  <h5 class="category">
+                    <router-link v-bind:to="`/recipes/${recipe.id}`">
+                      <button class="btn btn-primary">More Info</button>
+                    </router-link></h5>
                 </div>
               </div>
-            </router-link>
+            </a>
           </div>
 
 
@@ -56,6 +58,13 @@
 
   </div>
 </template>
+
+<style>
+  .selected {
+    background-color: grey;
+    transition: background-color 1s ease;
+  }
+</style>
 
 <script>
 import axios from "axios";
@@ -68,7 +77,8 @@ export default {
       recipes: [],
       titleFilter: "",
       sortAttribute: "title",
-      sortAscending: 1
+      sortAscending: 1,
+      currentRecipe: {}
     };
   },
   created: function() {
