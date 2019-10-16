@@ -31,10 +31,10 @@
           <option v-for="recipe in recipes">{{ recipe.title }}</option>
         </datalist>
 
-        <div class="row">
+        <transition-group class="row" appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
 
 
-          <div v-for="recipe in orderBy(filterBy(recipes, titleFilter, 'title'), sortAttribute, sortAscending)" class="col-md-4" v-on:click="currentRecipe = recipe" v-bind:class="{ selected: recipe === currentRecipe}">
+          <div v-for="recipe in orderBy(filterBy(recipes, titleFilter, 'title'), sortAttribute, sortAscending)" class="col-md-4" v-on:click="currentRecipe = recipe" v-bind:class="{ selected: recipe === currentRecipe}" v-bind:key="recipe.id">
             <a class="item-grid text-center">
               <div class="image" v-bind:style="`background-image: url(${recipe.image_url})`"></div>
               <div class="v-align">
@@ -51,7 +51,7 @@
           </div>
 
 
-        </div>
+        </transition-group>
       </div>
     </div>
 
