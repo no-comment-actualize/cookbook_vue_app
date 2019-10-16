@@ -3,12 +3,14 @@
     <div class="container">
       <form v-on:submit.prevent="submit()">
         <h1>Signup</h1>
+        <img v-bind:src="'https://http.cat/' + status" alt="">
         <ul>
           <li class="text-danger" v-for="error in errors">{{ error }}</li>
         </ul>
         <div class="form-group">
           <label>Name:</label> 
           <input type="text" class="form-control" v-model="name">
+          <small>{{ 50 - name.length }} characters remaining</small>
         </div>
         <div class="form-group">
           <label>Email:</label>
@@ -17,10 +19,12 @@
         <div class="form-group">
           <label>Password:</label>
           <input type="password" class="form-control" v-model="password">
+          <small v-if="password.length > 0 && password.length < 8">Must be at least 8 characters</small>
         </div>
         <div class="form-group">
           <label>Password confirmation:</label>
           <input type="password" class="form-control" v-model="passwordConfirmation">
+          <small v-if="password != passwordConfirmation">Must match password</small>
         </div>
         <input type="submit" class="btn btn-primary" value="Submit">
       </form>
@@ -38,7 +42,8 @@ export default {
       email: "",
       password: "",
       passwordConfirmation: "",
-      errors: []
+      errors: [],
+      status: ""
     };
   },
   methods: {
@@ -55,6 +60,7 @@ export default {
           this.$router.push("/login");
         })
         .catch(error => {
+          this.status = error.response.status;
           this.errors = error.response.data.errors;
         });
     }
