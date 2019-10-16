@@ -10,7 +10,11 @@
           </div>
         </div>
 
-        Search by title: <input type="text" v-model="titleFilter" list="titles">
+        <div>
+          Search by title: <input type="text" v-model="titleFilter" list="titles">
+          <button v-on:click="setSortAttribute('title')" class="btn btn-primary">Sort by Title</button>
+          <button v-on:click="setSortAttribute('prep_time')" class="btn btn-primary">Sort by Prep Time</button>
+        </div>
 
         <datalist id="titles">
           <option v-for="recipe in recipes">{{ recipe.title }}</option>
@@ -20,12 +24,13 @@
         <div class="row">
 
 
-          <div v-for="recipe in filterBy(recipes, titleFilter, 'title', 'ingredients')" class="col-md-4">
+          <div v-for="recipe in orderBy(filterBy(recipes, titleFilter, 'title'), sortAttribute)" class="col-md-4">
             <router-link v-bind:to="`/recipes/${recipe.id}`" class="item-grid text-center">
               <div class="image" v-bind:style="`background-image: url(${recipe.image_url})`"></div>
               <div class="v-align">
                 <div class="v-align-middle">
                   <h3 class="title">{{ recipe.title }}</h3>
+                  <h5 class="category">Prep time: {{ recipe.prep_time }}</h5>
                   <h5 class="category"><button class="btn btn-primary">More Info</button></h5>
                 </div>
               </div>
@@ -50,7 +55,8 @@ export default {
   data: function() {
     return {
       recipes: [],
-      titleFilter: ""
+      titleFilter: "",
+      sortAttribute: "title"
     };
   },
   created: function() {
@@ -60,6 +66,9 @@ export default {
     });
   },
   methods: {
+    setSortAttribute: function(attribute) {
+      this.sortAttribute = attribute;
+    }
   }
 };
 </script>
