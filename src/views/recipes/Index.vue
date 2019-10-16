@@ -9,8 +9,14 @@
             <p>This is cheddar's cookbook</p>
           </div>
         </div>
+
+        Search by title: <input type="text" v-model="titleFilter">
+        
+
         <div class="row">
-          <div v-for="recipe in recipes" class="col-md-4">
+
+
+          <div v-for="recipe in filterBy(recipes, titleFilter, 'title', 'ingredients')" class="col-md-4">
             <router-link v-bind:to="`/recipes/${recipe.id}`" class="item-grid text-center">
               <div class="image" v-bind:style="`background-image: url(${recipe.image_url})`"></div>
               <div class="v-align">
@@ -21,6 +27,8 @@
               </div>
             </router-link>
           </div>
+
+
         </div>
       </div>
     </div>
@@ -31,11 +39,14 @@
 
 <script>
 import axios from "axios";
+import Vue2Filters from "vue2-filters";
 
 export default {
+  mixins: [Vue2Filters.mixin],
   data: function() {
     return {
-      recipes: []
+      recipes: [],
+      titleFilter: ""
     };
   },
   created: function() {
