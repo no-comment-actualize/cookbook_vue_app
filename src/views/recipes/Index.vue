@@ -10,10 +10,21 @@
           </div>
         </div>
 
-        <div>
-          Search by title: <input type="text" v-model="titleFilter" list="titles">
-          <button v-on:click="setSortAttribute('title')" class="btn btn-primary">Sort by Title</button>
-          <button v-on:click="setSortAttribute('prep_time')" class="btn btn-primary">Sort by Prep Time</button>
+        <div class="row">
+          <div class="col-md-6">
+            <input type="text" placeholder="Search by title" class="form-control" v-model="titleFilter" list="titles">
+          </div>
+          <div class="col-md-6">
+            <button v-on:click="setSortAttribute('title')" class="btn btn-primary">Sort by Title 
+              <!-- <span v-if="sortAttribute === 'title' && sortAscending === 1">^</span> -->
+              <i v-if="sortAttribute === 'title' && sortAscending === 1" class="icon-arrow-up"></i>
+              <i v-if="sortAttribute === 'title' && sortAscending === -1" class="icon-arrow-down"></i>
+            </button>
+            <button v-on:click="setSortAttribute('prep_time')" class="btn btn-primary">Sort by Prep Time
+              <i v-if="sortAttribute === 'prep_time' && sortAscending === 1" class="icon-arrow-up"></i>
+              <i v-if="sortAttribute === 'prep_time' && sortAscending === -1" class="icon-arrow-down"></i>
+            </button>
+          </div>
         </div>
 
         <datalist id="titles">
@@ -24,7 +35,7 @@
         <div class="row">
 
 
-          <div v-for="recipe in orderBy(filterBy(recipes, titleFilter, 'title'), sortAttribute)" class="col-md-4">
+          <div v-for="recipe in orderBy(filterBy(recipes, titleFilter, 'title'), sortAttribute, sortAscending)" class="col-md-4">
             <router-link v-bind:to="`/recipes/${recipe.id}`" class="item-grid text-center">
               <div class="image" v-bind:style="`background-image: url(${recipe.image_url})`"></div>
               <div class="v-align">
@@ -56,7 +67,8 @@ export default {
     return {
       recipes: [],
       titleFilter: "",
-      sortAttribute: "title"
+      sortAttribute: "title",
+      sortAscending: 1
     };
   },
   created: function() {
@@ -67,7 +79,14 @@ export default {
   },
   methods: {
     setSortAttribute: function(attribute) {
-      this.sortAttribute = attribute;
+      // if im clicking on a button a second time
+      if (this.sortAttribute === attribute) {
+        // reverse the sort ascending
+        this.sortAscending = this.sortAscending * -1;
+      } else {
+        this.sortAscending = 1;
+        this.sortAttribute = attribute;
+      }
     }
   }
 };
