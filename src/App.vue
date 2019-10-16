@@ -12,6 +12,9 @@
               <li><router-link to="/login">Login</router-link></li>
               <li><router-link to="/logout">Logout</router-link></li>
               <li class="cta"><router-link to="/signup">Signup</router-link></li>
+              <li>
+                <input type="text" v-model="titleFilter" placeholder="Search Recipes">
+              </li>
             </ul>
           </nav>
         </div>
@@ -65,3 +68,13 @@
   </div>
 </template>
 
+
+<script>
+export default {
+  data: function() {
+    return {
+      titleFilter: ""
+    };
+  }
+};
+</script>

@@ -9,14 +9,12 @@
             <p>This is cheddar's cookbook</p>
           </div>
         </div>
-
-        Search by title: <input type="text" v-model="titleFilter">
         
 
         <div class="row">
 
 
-          <div v-for="recipe in filterBy(recipes, titleFilter, 'title', 'ingredients')" class="col-md-4">
+          <div v-for="recipe in filterBy(recipes, this.$parent.titleFilter, 'title', 'ingredients')" class="col-md-4">
             <router-link v-bind:to="`/recipes/${recipe.id}`" class="item-grid text-center">
               <div class="image" v-bind:style="`background-image: url(${recipe.image_url})`"></div>
               <div class="v-align">
@@ -45,8 +43,7 @@ export default {
   mixins: [Vue2Filters.mixin],
   data: function() {
     return {
-      recipes: [],
-      titleFilter: ""
+      recipes: []
     };
   },
   created: function() {
