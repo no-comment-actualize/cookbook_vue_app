@@ -1,6 +1,10 @@
 <template>
   <div class="recipes-new">
 
+    <p v-if="$parent.isLoggedIn()">A current user is logged in</p>
+    <p v-if="$parent.isLoggedIn()">Their ID is {{ $parent.user_id }}</p>
+    <p v-if="$parent.isLoggedIn()">Their email is {{ $parent.email }}</p>
+
     <form v-on:submit.prevent="submit()">
       <h1>New Recipe</h1>
       <img v-bind:src="'https://http.cat/' + status" alt="">
@@ -20,8 +24,8 @@
         <input type="text" class="form-control" v-model="directions">
       </div>
       <div class="form-group">
-        <label>Image Url:</label>
-        <input type="text" class="form-control" v-model="imageUrl">
+        <label>Image:</label>
+        <input type="file" class="form-control" v-on:change="setFile($event)" ref="fileInput">
       </div>
       <div class="form-group">
         <label>Prep Time:</label>
@@ -42,7 +46,7 @@ export default {
       title: "",
       ingredients: "",
       directions: "",
-      imageUrl: "",
+      image: "",
       prepTime: "",
       errors: [],
       status: ""
@@ -51,16 +55,20 @@ export default {
   created: function() {
   },
   methods: {
+    setFile: function(event) {
+      if (event.target.files.length > 0) {
+        this.image = event.target.files[0];
+      }
+    },
     submit: function() {
-      var params = {
-        title: this.title,
-        ingredients: this.ingredients,
-        directions: this.directions,
-        image_url: this.imageUrl,
-        prep_time: this.prepTime
-      };
+      var formData = new FormData();
+      formData.append("title", this.title);
+      formData.append("ingredients", this.ingredients);
+      formData.append("directions", this.directions);
+      formData.append("prep_time", this.prepTime);
+      formData.append("image", this.image);
       axios
-        .post("/api/recipes", params)
+        .post("/api/recipes", formData)
         .then(response => {
           this.$router.push("/recipes");
         })

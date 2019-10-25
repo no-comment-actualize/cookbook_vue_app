@@ -10,7 +10,11 @@ export default {
   created: function() {
     delete axios.defaults.headers.common["Authorization"];
     localStorage.removeItem("jwt");
-    this.$router.push("/");
+    localStorage.removeItem("user_id");
+    localStorage.removeItem("email");
+    // this.$router.push("/");
+    // if you need to refresh App.vue
+    window.location.href = "/";
   }
 };
 </script>
