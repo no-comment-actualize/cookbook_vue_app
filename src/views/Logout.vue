@@ -12,9 +12,7 @@ export default {
     localStorage.removeItem("jwt");
     localStorage.removeItem("user_id");
     localStorage.removeItem("email");
-    // this.$router.push("/");
-    // if you need to refresh App.vue
-    window.location.href = "/";
+    // send message to App.vue parent to adjust data items
   }
 };
 </script>

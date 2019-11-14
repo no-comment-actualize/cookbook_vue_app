@@ -75,9 +75,7 @@
 export default {
   data: function() {
     return {
-      titleFilter: "",
-      user_id: localStorage.getItem("user_id"),
-      email: localStorage.getItem("email")
+      titleFilter: ""
     };
   },
   methods: {
@@ -86,6 +84,12 @@ export default {
         return true;
       } else {
         return false;
+      }
+    },
+    getUserInfo(): function() {
+      return {
+        user_id: localStorage.getItem("user_id"),
+        email: localStorage.getItem("email")
       }
     }
   }
